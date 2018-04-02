@@ -32,7 +32,9 @@ describe('counter', () => {
     expect(store.getState()).toEqual({cnt: 11})
     store.dispatch(decrement(-1))
     expect(store.getState()).toEqual({cnt: 12})
-    store.dispatch({})
+    store.dispatch({
+      type: 'UNKNOWN'
+    })
     expect(store.getState()).toEqual({cnt: 12})
   })
 })

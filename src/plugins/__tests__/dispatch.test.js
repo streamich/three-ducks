@@ -1,6 +1,10 @@
 import {createStore} from '../../'
 import pluginDispatch from '../dispatch'
 
+const action = {
+  type: 'UNKNOWN'
+}
+
 describe('plugin', () => {
   describe('dispatch', () => {
     it('adds .dipatch() method', () => {
@@ -18,7 +22,7 @@ describe('plugin', () => {
     it('calls to dispatch does not crash', () => {
       const store = createStore({}, [pluginDispatch()])
 
-      store.dispatch()
+      store.dispatch(action)
     })
 
     it('calls middlewares with dispatched action and store', () => {
@@ -29,8 +33,6 @@ describe('plugin', () => {
         jest.fn(),
         jest.fn()
       ]
-
-      const action = {}
 
       store.dispatch(action)
 
@@ -50,8 +52,6 @@ describe('plugin', () => {
       ]
 
       store.middlewares[1].mockImplementation(() => false)
-
-      const action = {}
 
       store.dispatch(action)
 

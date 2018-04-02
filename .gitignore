@@ -13,3 +13,4 @@ lerna-debug.log
 /dist/
 _book/
 /demo/
+/lib/

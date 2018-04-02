@@ -1,4 +1,8 @@
 const reducer = reducer => store => {
+  if (process.env.NODE_ENV !== 'production') {
+    store.isDispatching = false
+  }
+
   store.reducer = reducer
   store.listeners = []
   store.middlewares.push((action, store) => {
@@ -6,11 +10,20 @@ const reducer = reducer => store => {
 
     const oldState = store.state
 
-    store.state = reducer(oldState, action)
+    if (process.env.NODE_ENV === 'production') {
+      store.state = store.reducer(oldState, action)
+    } else {
+      try {
+        store.isDispatching = true
+        store.state = store.reducer(oldState, action)
+      } finally {
+        store.isDispatching = false
+      }
+    }
 
-    const stateChanged = store.state !== oldState
+    const {listeners} = store
 
-    if (stateChanged) for (const listener of store.listeners) listener(store, oldState)
+    for (const listener of listeners) listener(store, oldState)
   })
 }
 
