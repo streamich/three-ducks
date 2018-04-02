@@ -11,19 +11,23 @@
     "eslint": "eslint src",
     "start": "npm run storybook",
     "clean": "rimraf lib",
-    "test": "npm run eslint && jest",
+    "test": "standard && jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
-    "prettier": "prettier --write '**/*.js'",
     "precommit": "lint-staged",
     "storybook": "start-storybook -p 6011",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "standard": "standard",
+    "prettier": "standard --fix"
   },
   "lint-staged": {
     "**/*.js": [
-      "prettier --write",
+      "npm run prettier",
       "git add"
     ]
+  },
+  "standard": {
+    "env": [ "jest" ]
   },
   "dependencies": {
   },
@@ -48,7 +52,8 @@
     "babel-preset-es2016": "6.24.1",
     "babel-preset-es2017": "6.24.1",
     "babel-preset-flow": "6.23.0",
-    "babel-preset-stage-0": "6.24.1"
+    "babel-preset-stage-0": "6.24.1",
+    "standard": "^11.0.1"
   },
   "config": {
     "commitizen": {
@@ -69,16 +74,6 @@
       "jest-tap-reporter"
     ]
   },
-  "prettier": {
-    "printWidth": 120,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5",
-    "bracketSpacing": false,
-    "jsxBracketSameLine": false
-  },
   "babel": {
     "presets": [
       "es2015",
@@ -88,12 +83,6 @@
       "flow"
     ],
     "comments": false
-  },
-  "eslintConfig": {
-    "extends": [
-      "mailonline"
-    ],
-    "root": true
   },
   "keywords": [
     "three-ducks",

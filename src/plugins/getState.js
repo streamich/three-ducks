@@ -1,5 +1,5 @@
-const pluginGetState = () => store => {
-  store.getState = () => store.state;
-};
+const getState = () => store => {
+  store.getState = () => store.state
+}
 
-export default pluginGetState;
+export default getState

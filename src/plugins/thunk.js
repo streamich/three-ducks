@@ -1,3 +1,3 @@
-const pluginThunk = () => store => {};
+const thunk = () => store => {}
 
-export default pluginThunk;
+export default thunk

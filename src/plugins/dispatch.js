@@ -1,14 +1,14 @@
-const pluginDispatch = () => store => {
-  store.middlewares = [];
+const dispatch = () => store => {
+  store.middlewares = []
   store.dispatch = action => {
-    let result;
+    let result
 
     for (const middleware of store.middlewares) {
-      result = middleware(action, store);
+      result = middleware(action, store)
 
-      if (result !== undefined) return result;
+      if (result !== undefined) return result
     }
-  };
-};
+  }
+}
 
-export default pluginDispatch;
+export default dispatch

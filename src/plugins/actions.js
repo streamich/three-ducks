@@ -1,5 +1,5 @@
-const pluginActions = () => store => {
-  store.actions = {};
-};
+const actions = () => store => {
+  store.actions = {}
+}
 
-export default pluginAction;
+export default actions

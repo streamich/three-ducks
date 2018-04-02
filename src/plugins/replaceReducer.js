@@ -1,7 +1,7 @@
-const pluginReplaceReducer = () => store => {
+const replaceReducer = () => store => {
   store.replaceReducer = nextReducer => {
-    store.reducer = nextReducer;
-  };
-};
+    store.reducer = nextReducer
+  }
+}
 
-export default pluginReplaceReducer;
+export default replaceReducer
