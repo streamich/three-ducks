@@ -1,64 +1,64 @@
 export const createStore = (state, plugins) => {
-    const store = {state};
+  const store = {state};
 
-    for (const plugin of plugins) plugin(store);
+  for (const plugin of plugins) plugin(store);
 
-    return store;
+  return store;
 };
 
 const pluginActions = () => store => {
-    store.actions = {};
+  store.actions = {};
 };
 
 const pluginDispatch = () => store => {
-    store.middlewares = [];
-    store.dispatch = action => {
-        let result;
+  store.middlewares = [];
+  store.dispatch = action => {
+    let result;
 
-        for (const middleware of store.middlewares) {
-            result = middleware(action, store);
+    for (const middleware of store.middlewares) {
+      result = middleware(action, store);
 
-            if (result !== undefined) return result;
-        }
-    };
+      if (result !== undefined) return result;
+    }
+  };
 };
 
 const pluginReducer = reducer => store => {
-    store.reducer = reducer;
-    store.listeners = [];
-    store.middlewares.push((action, store) => {
-        if (!action) return;
+  store.reducer = reducer;
+  store.listeners = [];
+  store.middlewares.push((action, store) => {
+    if (!action) return;
 
-        const oldState = store.state;
+    const oldState = store.state;
 
-        store.state = reducer(oldState, action);
+    store.state = reducer(oldState, action);
 
-        const stateChanged = store.state !== oldState;
+    const stateChanged = store.state !== oldState;
 
-        if (stateChanged) for (const listener of store.listeners) listener(store, oldState);
-    });
+    if (stateChanged) for (const listener of store.listeners) listener(store, oldState);
+  });
 };
 
 const pluginThunk = () => store => {};
 
 const pluginSubscribe = () => store => {
-    store.subscribe = listener => {
-        store.listeners.push(listener);
+  store.subscribe = listener => {
+    store.listeners.push(listener);
 
-        const unsubscribe = () => {
-            store.listeners = store.listeners.filter(l => l !== listener);
-        };
-
-        return unsubscribe;
+    const unsubscribe = () => {
+      store.listeners = store.listeners.filter(l => l !== listener);
     };
+
+    return unsubscribe;
+  };
 };
 
 const pluginGetState = () => store => {
-    store.getState = () => store.state;
+  store.getState = () => store.state;
 };
 
 const pluginReplaceReducer = () => store => {
-    store.replaceReducer = nextReducer => {
-        store.reducer = nextReducer;
-    };
+  store.replaceReducer = nextReducer => {
+    store.reducer = nextReducer;
+  };
 };
