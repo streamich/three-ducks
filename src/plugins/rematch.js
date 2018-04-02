@@ -1,4 +1,6 @@
-const createReducer = (store, name, reducers) => {
+const INIT = '@@rematch/INIT'
+
+const createReducer = (store, {name, reducers, state: initialState}) => {
   const oldReducer = store.reducer
   const reducerMap = {}
 
@@ -7,10 +9,20 @@ const createReducer = (store, name, reducers) => {
   }
 
   return (state, action) => {
+    if (action.type === INIT) {
+      return {
+        ...state,
+        [name]: initialState
+      }
+    }
+
     const reducer = reducerMap[action.type]
 
     if (reducer) {
-      return reducer(store.state[name], ...action.args)
+      return {
+        ...state,
+        [name]: reducer(state[name], ...action.args)
+      }
     }
 
     return oldReducer(state, action)
@@ -18,18 +30,27 @@ const createReducer = (store, name, reducers) => {
 }
 
 const plugin = () => (store) => {
-  store.rematch = (name, model) => {
+  store.rematch = (model, name) => {
+    if (!model.name) {
+      model.name = name
+    }
+
+    name = model.name
+
     const ctx = {}
 
     if (model.reducers) {
       for (const prop in model.reducers) {
-        ctx[prop] = (...args) => ({
+        ctx[prop] = (...args) => store.dispatch({
           args,
           type: `${name}/${prop}`
         })
       }
 
-      store.reducer = createReducer(store, name, model.reducers)
+      store.reducer = createReducer(store, model)
+      store.dispatch({
+        type: INIT
+      })
     }
 
     store.dispatch[name] = ctx
