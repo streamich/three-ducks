@@ -2,7 +2,7 @@
   "name": "three-ducks",
   "version": "0.0.1",
   "description": "As if Redux was written as plugins",
-  "main": "index.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/streamich/three-ducks.git"

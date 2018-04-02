@@ -2,7 +2,29 @@
 
 [![][npm-badge]][npm-url] [![][travis-badge]][travis-url]
 
-Tiny but mighty state management lib.
+Tiny Redux clone with plugins.
+
+- Tiny, core without plugins is only 5 lines of code
+- All Redux APIs (`.subscribe()`, `.getState()`, `.dispatch()`) are separate plugins
+- __Public domain__ &mdash; [Unlicense license](./LICENSE)
+
+
+## Reference
+
+- [Installation](./docs/Installation.md)
+- [Plugins](./docs/Plugins.md)
+  - [`dispatch`](./docs/plugins/dispatch.md)
+  - [`reducer`](./docs/plugins/reducer.md)
+  - [`subscribe`](./docs/plugins/subscribe.md)
+  - [`replaceReducer`](./docs/plugins/replaceReducer.md)
+  - [`getState`](./docs/plugins/replaceReducer.md)
+- [Presets](./docs/Presets.md)
+  - [`redux`](/docs/presets/redux.md)
+
+
+## See also
+
+- [`nano-css`](https://github.com/streamich/nano-css) &mdash; Distilled CSS-in-JS for gourmet developers
 
 
 [npm-url]: https://www.npmjs.com/package/three-ducks
