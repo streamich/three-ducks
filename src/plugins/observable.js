@@ -1,6 +1,6 @@
 import $$observable from 'symbol-observable'
 
-const observablePlugin = () => (store) => {
+const plugin = () => (store) => {
   function observable () {
     const outerSubscribe = store.subscribe
 
@@ -29,4 +29,4 @@ const observablePlugin = () => (store) => {
   store[$$observable] = observable
 }
 
-export default observablePlugin
+export default plugin

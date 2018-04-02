@@ -1,4 +1,4 @@
-const replaceReducer = () => store => {
+const plugin = () => store => {
   store.replaceReducer = nextReducer => {
     if (process.env.NODE_ENV !== 'producrtion') {
       if (typeof nextReducer !== 'function') {
@@ -10,4 +10,4 @@ const replaceReducer = () => store => {
   }
 }
 
-export default replaceReducer
+export default plugin

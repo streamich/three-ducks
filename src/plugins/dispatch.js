@@ -1,4 +1,4 @@
-const dispatch = () => store => {
+const plugin = () => store => {
   store.middlewares = []
   store.dispatch = action => {
     if (process.env.NODE_ENV !== 'production') {
@@ -50,4 +50,4 @@ const dispatch = () => store => {
   }
 }
 
-export default dispatch
+export default plugin

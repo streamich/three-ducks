@@ -7,7 +7,7 @@ Tiny Redux clone with plugins.
 - __Tiny__ &mdash; core is only [5 lines of code](./src/index.js)
 - __All Redux APIs__ &mdash; `.subscribe()`, `.getState()`, `.dispatch()`, etc. &mdash; as separate plugins
 - __Faster than Redux__ &mdash; see [benchmark results](#benchmark)
-- __100% Compatible__ &mdash; works with [`react-redux`](https://github.com/reactjs/react-redux), passes [Redux `createStore()` test suite](./src/presets/__tests__/reduxSpec.test.js)
+- __100% compatible__ &mdash; works with [`react-redux`](https://github.com/reactjs/react-redux), passes [Redux `createStore()` test suite](./src/presets/__tests__/reduxSpec.test.js)
 - __Public domain__ &mdash; [Unlicense license](./LICENSE)
 
 
@@ -33,7 +33,7 @@ Tiny Redux clone with plugins.
 
 ## Benchmark
 
-Running a very basic [counter micro-benchmark](./benchmark/index.js).
+Running a simple ["counter" micro-benchmark](./benchmark/index.js).
 
 ```
 three-ducks (with redux preset) x 1,076 ops/sec ±2.58% (47 runs sampled)

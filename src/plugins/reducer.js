@@ -1,4 +1,4 @@
-const reducer = reducer => store => {
+const plugin = reducer => store => {
   if (process.env.NODE_ENV !== 'production') {
     store.isDispatching = false
   }
@@ -27,4 +27,4 @@ const reducer = reducer => store => {
   })
 }
 
-export default reducer
+export default plugin
