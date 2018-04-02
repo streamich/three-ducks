@@ -64,7 +64,7 @@ const plugin = () => (store) => {
 
   store.reducer = crateReducer(store.reducer)
 
-  store.enhanceModel = (Model, {name, idField = 'id', fields}) => {
+  store.enhanceModel = (Model, {name, idField = 'id', fields, path}) => {
     Model.displayName = name
     store[name] = Model
 
@@ -73,7 +73,7 @@ const plugin = () => (store) => {
     }
 
     Model.prototype.path = function () {
-      return [name, 'byId', this.id]
+      return path ? path(this) : [name, 'byId', this.id]
     }
 
     Model.prototype.patch = function (patch) {
@@ -92,9 +92,7 @@ const plugin = () => (store) => {
             return this.select()[field]
           },
           set: function (value) {
-            this.patch({
-              [field]: value
-            })
+            this.patch({[field]: value})
           }
         })
       } else {
@@ -105,9 +103,7 @@ const plugin = () => (store) => {
           },
           set: function (id) {
             this.__id = id
-            this.patch({
-              [idField]: id
-            })
+            this.patch({[idField]: id})
           }
         })
       }
