@@ -54,6 +54,7 @@
     "babel-preset-stage-0": "6.24.1",
     "standard": "^11.0.1",
     "redux": "3.7.2",
+    "react-redux": "^5.0.7",
     "rxjs": "^5.5.8",
     "react": "^16.3.0",
     "react-dom": "^16.3.0",
