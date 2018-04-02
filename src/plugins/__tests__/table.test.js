@@ -56,8 +56,9 @@ describe('plugin', () => {
 
       expect(typeof User).toBe('function')
 
-      const user = new User('123')
+      const user = new User()
 
+      user.id = '123'
       user.name = 'Tester'
 
       expect(store.state.User.byId['123'].name).toBe('Tester')
@@ -78,7 +79,7 @@ describe('plugin', () => {
 
       const user = new MyUser_()
 
-      user.setId('1')
+      user.id = '1'
       user.tags = [1, 2, 3]
 
       expect(store.state.MyUser.byId['1'].tags).toEqual([1, 2, 3])

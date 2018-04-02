@@ -16,7 +16,7 @@ const reducerPathPatch = (state, {path, patch}) => {
   if (!path.length) return {...state, ...patch}
   else {
     const [step, ...restPath] = path
-    // if (step === void 0) return state;
+
     return {
       ...state,
       [step]: reducerPathPatch(state[step] || {}, {path: restPath, patch})
@@ -68,17 +68,12 @@ const plugin = () => (store) => {
     Model.displayName = name
     store[name] = Model
 
-    Model.prototype.setId = function (id) {
-      this.__id = id
-      return this
-    }
-
     Model.prototype.select = function () {
       return selectPath(store.state, this.path()) || {}
     }
 
     Model.prototype.path = function () {
-      return [name, 'byId', this.__id]
+      return [name, 'byId', this.id]
     }
 
     Model.prototype.patch = function (patch) {
@@ -102,28 +97,31 @@ const plugin = () => (store) => {
             })
           }
         })
+      } else {
+        Object.defineProperty(Model.prototype, idField, {
+          enumerable: true,
+          get: function () {
+            return this.__id
+          },
+          set: function (id) {
+            this.__id = id
+            this.patch({
+              [idField]: id
+            })
+          }
+        })
       }
     }
-  }
-
-  store.createModel = (schema) => {
-    const Model = class {
-      constructor (id) {
-        this.setId(id)
-      }
-    }
-
-    store.enhanceModel(Model, schema)
 
     return Model
   }
+
+  store.createModel = (schema) =>
+    store.enhanceModel(class {}, schema)
 
   // Class decorator
-  store.model = (schema) => (Model) => {
+  store.model = (schema) => (Model) =>
     store.enhanceModel(Model, schema)
-
-    return Model
-  }
 }
 
 export default plugin
