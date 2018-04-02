@@ -39,7 +39,13 @@ const dispatch = () => store => {
     for (const middleware of store.middlewares) {
       result = middleware(action, store)
 
-      if (result !== undefined) return result
+      if (result !== undefined) {
+        if (result) {
+          action = result
+        } else {
+          return result
+        }
+      }
     }
   }
 }

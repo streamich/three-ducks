@@ -4,9 +4,10 @@
 
 Tiny Redux clone with plugins.
 
-- __Tiny__ &mdash; core is only 5 lines of code
+- __Tiny__ &mdash; core is only [5 lines of code](./src/index.js)
 - __All Redux APIs__ &mdash; `.subscribe()`, `.getState()`, `.dispatch()`, etc. &mdash; as separate plugins
-- __Compatible__ &mdash; passes [Redux `createStore()` test suite](./src/presets/__tests__/reduxSpec.test.js)
+- __Faster than Redux__ &mdash; see [benchmark results](#benchmark)
+- __100% Compatible__ &mdash; works with [`react-redux`](https://github.com/reactjs/react-redux), passes [Redux `createStore()` test suite](./src/presets/__tests__/reduxSpec.test.js)
 - __Public domain__ &mdash; [Unlicense license](./LICENSE)
 
 
@@ -20,6 +21,7 @@ Tiny Redux clone with plugins.
   - [`replaceReducer`](./docs/plugins/replaceReducer.md)
   - [`getState`](./docs/plugins/replaceReducer.md)
   - [`observable`](./docs/plugins/observable.md)
+  - [`thunk`](./docs/plugins/thunk.md)
 - [Presets](./docs/Presets.md)
   - [`redux`](/docs/presets/redux.md)
 
@@ -27,6 +29,17 @@ Tiny Redux clone with plugins.
 ## See also
 
 - [`nano-css`](https://github.com/streamich/nano-css) &mdash; Distilled CSS-in-JS for gourmet developers
+
+
+## Benchmark
+
+Running a very basic [counter micro-benchmark](./benchmark/index.js).
+
+```
+three-ducks (with redux preset) x 1,076 ops/sec ±2.58% (47 runs sampled)
+redux x 494 ops/sec ±4.40% (43 runs sampled)
+Fastest is three-ducks (with redux preset)
+```
 
 
 [npm-url]: https://www.npmjs.com/package/three-ducks
