@@ -3,13 +3,13 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        loader: 'babel-loader'
-      }
-    ]
+        loader: 'babel-loader',
+      },
+    ],
   },
 
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
-    enforceExtension: false
-  }
+    enforceExtension: false,
+  },
 };

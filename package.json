@@ -2,28 +2,31 @@
   "name": "three-ducks",
   "version": "0.0.1",
   "description": "As if Redux was written as plugins",
-  "main": "index.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/streamich/three-ducks.git"
   },
   "scripts": {
-    "eslint": "eslint src",
     "start": "npm run storybook",
     "clean": "rimraf lib",
-    "test": "npm run eslint && jest",
+    "test": "standard && jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
-    "prettier": "prettier --write '**/*.js'",
     "precommit": "lint-staged",
     "storybook": "start-storybook -p 6011",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "lint": "standard",
+    "prettier": "standard --fix"
   },
   "lint-staged": {
     "**/*.js": [
-      "prettier --write",
+      "npm run prettier",
       "git add"
     ]
+  },
+  "standard": {
+    "env": [ "jest" ]
   },
   "dependencies": {
   },
@@ -32,15 +35,12 @@
     "jest": "21.2.1",
     "jest-tap-reporter": "1.9.0",
     "lint-staged": "4.3.0",
-    "prettier": "1.11.1",
     "rimraf": "2.6.2",
     "@storybook/react": "3.4.0",
     "@storybook/addon-actions": "3.4.0",
     "@storybook/addon-links": "3.4.0",
     "mol-conventional-changelog": "1.2.0",
     "semantic-release": "12.4.1",
-    "eslint": "4.19.1",
-    "eslint-config-mailonline": "^9.0.0",
     "babel-cli": "6.26.0",
     "babel-core": "^6.26.0",
     "babel-polyfill": "6.26.0",
@@ -48,7 +48,8 @@
     "babel-preset-es2016": "6.24.1",
     "babel-preset-es2017": "6.24.1",
     "babel-preset-flow": "6.23.0",
-    "babel-preset-stage-0": "6.24.1"
+    "babel-preset-stage-0": "6.24.1",
+    "standard": "^11.0.1"
   },
   "config": {
     "commitizen": {
@@ -69,16 +70,6 @@
       "jest-tap-reporter"
     ]
   },
-  "prettier": {
-    "printWidth": 120,
-    "tabWidth": 4,
-    "useTabs": false,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5",
-    "bracketSpacing": false,
-    "jsxBracketSameLine": false
-  },
   "babel": {
     "presets": [
       "es2015",
@@ -88,12 +79,6 @@
       "flow"
     ],
     "comments": false
-  },
-  "eslintConfig": {
-    "extends": [
-      "mailonline"
-    ],
-    "root": true
   },
   "keywords": [
     "three-ducks",
