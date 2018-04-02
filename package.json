@@ -18,7 +18,7 @@
     "semantic-release": "semantic-release",
     "lint": "standard",
     "prettier": "standard --fix",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "NODE_ENV=production start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "bench": "NODE_ENV=production babel-node benchmark/index.js"
   },
