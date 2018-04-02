@@ -11,6 +11,7 @@
     "start": "npm run storybook",
     "clean": "rimraf lib",
     "test": "standard && jest",
+    "build": "npm run clean && babel src --out-dir lib --ignore __tests__",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "precommit": "lint-staged",
