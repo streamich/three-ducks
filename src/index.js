@@ -1,31 +1,29 @@
-const createStore = (state, plugins) => {
+export const createStore = (state, plugins) => {
     const store = {state};
 
-    for (const plugin of plugins)
-        plugin(store);
+    for (const plugin of plugins) plugin(store);
 
     return store;
 };
 
-const pluginActions = () => (store) => {
+const pluginActions = () => store => {
     store.actions = {};
 };
 
-const pluginDispatch = () => (store) => {
+const pluginDispatch = () => store => {
     store.middlewares = [];
-    store.dispatch = (action) => {
+    store.dispatch = action => {
         let result;
 
         for (const middleware of store.middlewares) {
             result = middleware(action, store);
 
-            if (result !== undefined)
-                return result;
+            if (result !== undefined) return result;
         }
     };
 };
 
-const pluginReducer = (reducer) => (store) => {
+const pluginReducer = reducer => store => {
     store.reducer = reducer;
     store.listeners = [];
     store.middlewares.push((action, store) => {
@@ -37,18 +35,14 @@ const pluginReducer = (reducer) => (store) => {
 
         const stateChanged = store.state !== oldState;
 
-        if (stateChanged)
-            for (const listener of store.listeners)
-                listener(store, oldState);
+        if (stateChanged) for (const listener of store.listeners) listener(store, oldState);
     });
 };
 
-const pluginThunk = () => (store) => {
+const pluginThunk = () => store => {};
 
-};
-
-const pluginSubscribe = () => (store) => {
-    store.subscribe = (listener) => {
+const pluginSubscribe = () => store => {
+    store.subscribe = listener => {
         store.listeners.push(listener);
 
         const unsubscribe = () => {
@@ -59,24 +53,12 @@ const pluginSubscribe = () => (store) => {
     };
 };
 
-const pluginGetState = () => (store) => {
+const pluginGetState = () => store => {
     store.getState = () => store.state;
 };
 
-const pluginReplaceReducer = () => (store) => {
-    store.replaceReducer = (nextReducer) => {
+const pluginReplaceReducer = () => store => {
+    store.replaceReducer = nextReducer => {
         store.reducer = nextReducer;
     };
 };
-
-const plugins = [
-    pluginActions(),
-    pluginDispatch(),
-    pluginReducer(reducer),
-    pluginThunk(),
-    pluginGetState(),
-    pluginSubscribe(),
-    pluginReplaceReducer(),
-];
-
-const store = createStore({}, plugins);
