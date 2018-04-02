@@ -8,7 +8,6 @@
     "url": "https://github.com/streamich/three-ducks.git"
   },
   "scripts": {
-    "eslint": "eslint src",
     "start": "npm run storybook",
     "clean": "rimraf lib",
     "test": "standard && jest",
@@ -17,7 +16,7 @@
     "precommit": "lint-staged",
     "storybook": "start-storybook -p 6011",
     "semantic-release": "semantic-release",
-    "standard": "standard",
+    "lint": "standard",
     "prettier": "standard --fix"
   },
   "lint-staged": {
@@ -36,15 +35,12 @@
     "jest": "21.2.1",
     "jest-tap-reporter": "1.9.0",
     "lint-staged": "4.3.0",
-    "prettier": "1.11.1",
     "rimraf": "2.6.2",
     "@storybook/react": "3.4.0",
     "@storybook/addon-actions": "3.4.0",
     "@storybook/addon-links": "3.4.0",
     "mol-conventional-changelog": "1.2.0",
     "semantic-release": "12.4.1",
-    "eslint": "4.19.1",
-    "eslint-config-mailonline": "^9.0.0",
     "babel-cli": "6.26.0",
     "babel-core": "^6.26.0",
     "babel-polyfill": "6.26.0",
