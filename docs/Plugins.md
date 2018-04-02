@@ -8,4 +8,6 @@ can be found in `three-ducks/lib/plugins/` folder.
 - [`subscribe`](./plugins/subscribe.md) &mdash; adds `.subscribe()` method
 - [`replaceReducer`](./plugins/replaceReducer.md) &mdash; adds `.replaceReducer()` method
 - [`getState`](./plugins/replaceReducer.md) &mdash; adds `.getState()` method
-- [`observable`](./plugins/observable.md) &mdash; makes store an [observalbe](https://github.com/tc39/proposal-observable)
+- [`observable`](./plugins/observable.md) &mdash; makes store an [observalbe]
+- [`thunk`](./plugins/thunk.md) &mdash; similar to `redux-thunk` package
+(https://github.com/tc39/proposal-observable)
