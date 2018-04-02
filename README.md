@@ -19,7 +19,7 @@ Tiny Redux clone with plugins.
   - [`reducer`](./docs/plugins/reducer.md)
   - [`subscribe`](./docs/plugins/subscribe.md)
   - [`replaceReducer`](./docs/plugins/replaceReducer.md)
-  - [`getState`](./docs/plugins/replaceReducer.md)
+  - [`getState`](./docs/plugins/getState.md)
   - [`observable`](./docs/plugins/observable.md)
   - [`thunk`](./docs/plugins/thunk.md)
 - [Presets](./docs/Presets.md)

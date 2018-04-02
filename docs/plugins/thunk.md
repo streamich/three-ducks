@@ -6,13 +6,13 @@ this plugin before `reducer` plugin.
 ```js
 import {createStore} from 'three-ducks';
 import pluginDispatch from 'three-ducks/lib/plugins/dispatch';
-import pluginReducer from 'three-ducks/lib/plugins/reducer';
 import pluginThunk from 'three-ducks/lib/plugins/thunk';
+import pluginReducer from 'three-ducks/lib/plugins/reducer';
 
 const store = createStore({}, [
   pluginDispatch(),
-  pluginReducer(reducer),
   pluginThunk()
+  pluginReducer(reducer),
 ]);
 
 const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
