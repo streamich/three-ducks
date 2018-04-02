@@ -6,6 +6,7 @@ Tiny Redux clone with plugins.
 
 - __Tiny__ &mdash; core is only 5 lines of code
 - __All Redux APIs__ &mdash; `.subscribe()`, `.getState()`, `.dispatch()`, etc. &mdash; as separate plugins
+- __Compatible__ &mdash; passes [Redux `createStore()` test suite](./src/presets/__tests__/reduxSpec.test.js)
 - __Public domain__ &mdash; [Unlicense license](./LICENSE)
 
 
@@ -18,6 +19,7 @@ Tiny Redux clone with plugins.
   - [`subscribe`](./docs/plugins/subscribe.md)
   - [`replaceReducer`](./docs/plugins/replaceReducer.md)
   - [`getState`](./docs/plugins/replaceReducer.md)
+  - [`observable`](./docs/plugins/observable.md)
 - [Presets](./docs/Presets.md)
   - [`redux`](/docs/presets/redux.md)
 
