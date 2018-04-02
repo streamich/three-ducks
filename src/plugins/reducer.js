@@ -1,6 +1,10 @@
 const plugin = reducer => store => {
   if (process.env.NODE_ENV !== 'production') {
     store.isDispatching = false
+
+    if (typeof reducer !== 'function') {
+      throw new TypeError('reducer must be a function')
+    }
   }
 
   store.reducer = reducer
