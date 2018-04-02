@@ -30,6 +30,7 @@
     "env": [ "jest" ]
   },
   "dependencies": {
+    "symbol-observable": "^1.2.0"
   },
   "devDependencies": {
     "husky": "0.14.3",
@@ -50,7 +51,9 @@
     "babel-preset-es2017": "6.24.1",
     "babel-preset-flow": "6.23.0",
     "babel-preset-stage-0": "6.24.1",
-    "standard": "^11.0.1"
+    "standard": "^11.0.1",
+    "redux": "3.7.2",
+    "rxjs": "^5.5.8"
   },
   "config": {
     "commitizen": {

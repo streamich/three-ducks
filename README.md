@@ -4,8 +4,8 @@
 
 Tiny Redux clone with plugins.
 
-- __Tiny__ &mdash; core without plugins is only 5 lines of code
-- __All Redux APIs__ &mdahs; `.subscribe()`, `.getState()`, `.dispatch()`, etc. &mdash; are separate plugins
+- __Tiny__ &mdash; core is only 5 lines of code
+- __All Redux APIs__ &mdash; `.subscribe()`, `.getState()`, `.dispatch()`, etc. &mdash; as separate plugins
 - __Public domain__ &mdash; [Unlicense license](./LICENSE)
 
 
