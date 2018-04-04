@@ -64,16 +64,30 @@ const plugin = () => (store) => {
 
   store.reducer = crateReducer(store.reducer)
 
+  store.link = (path, fields, obj) => {
+    for (const field of fields) {
+      Object.defineProperty(obj, field, {
+        enumerable: true,
+        get: function () {
+          return this.select()[field]
+        },
+        set: function (value) {
+          this.patch({[field]: value})
+        }
+      })
+    }
+  }
+
   store.enhanceModel = (Model, {name, idField = 'id', fields, path}) => {
     Model.displayName = name
     store[name] = Model
 
-    Model.prototype.select = function () {
-      return selectPath(store.state, this.path()) || {}
-    }
-
     Model.prototype.path = function () {
       return path ? path(this) : [name, 'byId', this.id]
+    }
+
+    Model.prototype.select = function () {
+      return selectPath(store.state, this.path()) || {}
     }
 
     Model.prototype.patch = function (patch) {
@@ -84,30 +98,16 @@ const plugin = () => (store) => {
       store.dispatch(pathDelete(this.path()))
     }
 
-    for (const field of fields) {
-      if (field !== idField) {
-        Object.defineProperty(Model.prototype, field, {
-          enumerable: true,
-          get: function () {
-            return this.select()[field]
-          },
-          set: function (value) {
-            this.patch({[field]: value})
-          }
-        })
-      } else {
-        Object.defineProperty(Model.prototype, idField, {
-          enumerable: true,
-          get: function () {
-            return this.__id
-          },
-          set: function (id) {
-            this.__id = id
-            this.patch({[idField]: id})
-          }
-        })
+    Object.defineProperty(Model.prototype, idField, {
+      enumerable: true,
+      get: function () {
+        return this.__id
+      },
+      set: function (id) {
+        this.__id = id
+        this.patch({[idField]: id})
       }
-    }
+    })
 
     return Model
   }
