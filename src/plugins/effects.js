@@ -7,8 +7,8 @@ const plugin = () => (store) => {
     return result
   }
 
-  const executeListEffect = ({effects, opts}) => {
-    return Promise.all(effects.map((effect) => {
+  const executeListEffect = ({list, opts}) => {
+    return Promise.all(list.map((effect) => {
 
     }))
   }
@@ -25,13 +25,12 @@ const plugin = () => (store) => {
   }
 
   store.effectListeners.push((effects) => {
-    // eslint-disable-next-line
-    for (const [state, effect] of effects) { executeEffect(effect) }
+    for (const effect of effects) { executeEffect(effect) }
   })
 
   const action = (action) => ({action, type: 'ACTION'})
   const run = (fn, ...args) => ({fn, args, type: 'RUN'})
-  const list = (effects, opts) => ({effects, opts, type: 'LIST'})
+  const list = (list, opts) => ({list, opts, type: 'LIST'})
 
   store.effects = {
     action,
