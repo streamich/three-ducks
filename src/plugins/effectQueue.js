@@ -1,13 +1,15 @@
 const plugin = () => (store) => {
-  const dispatch = store.dispatch
-  let effectQueue
-
   store.effectListeners = []
 
-  store.effect = (state, effect) => {
-    effectQueue.push([state, effect])
+  let effectQueue = []
+
+  store.withEffect = (state, effect) => {
+    effectQueue.push(effect)
+
     return state
   }
+
+  const dispatch = store.dispatch
 
   store.dispatch = function () {
     effectQueue = []
