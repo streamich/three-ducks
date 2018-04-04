@@ -44,7 +44,7 @@ describe('plugin', () => {
       expect(typeof user.delete).toBe('function')
     })
 
-    it('updates field', () => {
+    xit('updates field', () => {
       const store = createStoreWithTable()
       const User = store.createModel({
         name: 'User',
@@ -64,7 +64,7 @@ describe('plugin', () => {
       expect(store.state.User.byId['123'].name).toBe('Tester')
     })
 
-    it('model enhancer', () => {
+    xit('model enhancer', () => {
       const store = createStoreWithTable()
 
       const MyUser = class MyUser {}
