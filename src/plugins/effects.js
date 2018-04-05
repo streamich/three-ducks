@@ -1,26 +1,38 @@
 const plugin = () => (store) => {
   const executeActionEffect = ({action}) => store.dispatch(action)
 
-  const executeFnEffect = ({fn, args}) => {
-    const result = fn(...args)
-
-    return result
+  const executeFnEffect = ({fn, args}, ...moreArgs) => {
+    fn.apply(null, (args || []).concat(moreArgs))
   }
 
   const executeListEffect = ({list, opts}) => {
-    return Promise.all(list.map((effect) => {
-
-    }))
+    for (const effect of list) { executeEffect(effect) }
   }
 
-  const executeEffect = (effect) => {
+  const executeBranchEffect = async ({test, success, failure}) => {
+    try {
+      const result = await executeEffect(test)
+
+      if (success) {
+        return executeEffect(success, result)
+      }
+    } catch (error) {
+      if (failure) {
+        return executeEffect(failure, error)
+      }
+    }
+  }
+
+  const executeEffect = (effect, ...args) => {
     switch (effect.type) {
       case 'ACTION':
-        return executeActionEffect(effect)
+        return executeActionEffect(effect, ...args)
       case 'RUN':
-        return executeFnEffect(effect)
+        return executeFnEffect(effect, ...args)
+      case 'BRANCH':
+        return executeBranchEffect(effect, ...args)
       case 'LIST':
-        return executeListEffect(effect)
+        return executeListEffect(effect, ...args)
     }
   }
 
@@ -31,11 +43,18 @@ const plugin = () => (store) => {
   const action = (action) => ({action, type: 'ACTION'})
   const run = (fn, ...args) => ({fn, args, type: 'RUN'})
   const list = (list, opts) => ({list, opts, type: 'LIST'})
+  const branch = (test, success, failure) => ({
+    test,
+    success,
+    failure,
+    type: 'BRANCH'
+  })
 
   store.effects = {
     action,
     run,
-    list
+    list,
+    branch
   }
 }
 
