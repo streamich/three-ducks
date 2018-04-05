@@ -1,3 +1,5 @@
+import effectQueuePlugin from './effectQueue'
+
 const $$effect = '@@effect'
 
 const createEffect = (obj) => {
@@ -9,6 +11,10 @@ const createEffect = (obj) => {
 const isPromise = (a) => (typeof a === 'object') && (typeof a.then === 'function')
 
 const plugin = () => (store) => {
+  if (!store.withEffect) {
+    effectQueuePlugin(store)
+  }
+
   const executeActionEffect = ({action}) => store.dispatch(action)
 
   const executeFnEffect = ({fn, args}, ...moreArgs) => {
@@ -16,39 +22,39 @@ const plugin = () => (store) => {
   }
 
   const executeListEffect = ({list, opts}) => {
-    for (const effect of list) { executeEffect(effect) }
+    for (const effect of list) { execEffect(effect) }
   }
 
   const executeBranchEffect = async ({test, success, failure}, ...args) => {
     try {
-      const result = executeEffect(test, ...args)
+      const result = execEffect(test, ...args)
 
       if (isPromise(result)) {
         const promiseResult = await result
 
         if (success) {
-          return executeEffect(success, promiseResult)
+          return execEffect(success, promiseResult)
         }
       } else {
         if (success) {
-          return executeEffect(success, result)
+          return execEffect(success, result)
         }
       }
     } catch (error) {
       if (failure) {
-        return executeEffect(failure, error)
+        return execEffect(failure, error)
       }
     }
   }
 
-  const effectMap = {
+  const effectMap = store.effectMap = {
     A: executeActionEffect,
     R: executeFnEffect,
     L: executeListEffect,
     B: executeBranchEffect
   }
 
-  const executeEffect = (effect, ...args) => {
+  const execEffect = store.execEffect = (effect, ...args) => {
     if (process.env.NODE_ENV !== 'production') {
       if (typeof effect !== 'object') {
         throw new TypeError('Effect must be either effect object or action object.')
@@ -63,7 +69,7 @@ const plugin = () => (store) => {
   }
 
   store.effectListeners.push((effects) => {
-    for (const effect of effects) { executeEffect(effect) }
+    for (const effect of effects) { execEffect(effect) }
   })
 
   const action = (action) => createEffect({
@@ -100,6 +106,7 @@ const plugin = () => (store) => {
 
   store.effects = {
     withEffect: store.withEffect,
+    createEffect,
     action,
     run,
     list,
