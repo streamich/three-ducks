@@ -1,20 +1,38 @@
+const $$effect = '@@effect'
+
+const createEffect = (obj) => {
+  obj[$$effect] = 1
+
+  return obj
+}
+
+const isPromise = (a) => (typeof a === 'object') && (typeof a.then === 'function')
+
 const plugin = () => (store) => {
   const executeActionEffect = ({action}) => store.dispatch(action)
 
   const executeFnEffect = ({fn, args}, ...moreArgs) => {
-    fn.apply(null, (args || []).concat(moreArgs))
+    return fn.apply(null, (args || []).concat(moreArgs))
   }
 
   const executeListEffect = ({list, opts}) => {
     for (const effect of list) { executeEffect(effect) }
   }
 
-  const executeBranchEffect = async ({test, success, failure}) => {
+  const executeBranchEffect = async ({test, success, failure}, ...args) => {
     try {
-      const result = await executeEffect(test)
+      const result = executeEffect(test, ...args)
 
-      if (success) {
-        return executeEffect(success, result)
+      if (isPromise(result)) {
+        const promiseResult = await result
+
+        if (success) {
+          return executeEffect(success, promiseResult)
+        }
+      } else {
+        if (success) {
+          return executeEffect(success, result)
+        }
       }
     } catch (error) {
       if (failure) {
@@ -23,16 +41,24 @@ const plugin = () => (store) => {
     }
   }
 
+  const effectMap = {
+    A: executeActionEffect,
+    R: executeFnEffect,
+    L: executeListEffect,
+    B: executeBranchEffect
+  }
+
   const executeEffect = (effect, ...args) => {
-    switch (effect.type) {
-      case 'ACTION':
-        return executeActionEffect(effect, ...args)
-      case 'RUN':
-        return executeFnEffect(effect, ...args)
-      case 'BRANCH':
-        return executeBranchEffect(effect, ...args)
-      case 'LIST':
-        return executeListEffect(effect, ...args)
+    if (process.env.NODE_ENV !== 'production') {
+      if (typeof effect !== 'object') {
+        throw new TypeError('Effect must be either effect object or action object.')
+      }
+    }
+
+    if (effect[$$effect]) {
+      return effectMap[effect.type](effect, ...args)
+    } else {
+      return store.dispatch(effect)
     }
   }
 
@@ -40,17 +66,40 @@ const plugin = () => (store) => {
     for (const effect of effects) { executeEffect(effect) }
   })
 
-  const action = (action) => ({action, type: 'ACTION'})
-  const run = (fn, ...args) => ({fn, args, type: 'RUN'})
-  const list = (list, opts) => ({list, opts, type: 'LIST'})
-  const branch = (test, success, failure) => ({
+  const action = (action) => createEffect({
+    action,
+    type: 'A'
+  })
+
+  const run = (fn, ...args) => createEffect({
+    fn,
+    args,
+    type: 'R'
+  })
+
+  const list = (list, opts) => {
+    if (process.env.NODE_EVN !== 'production') {
+      if (!Array.isArray(list)) {
+        throw new TypeError('list() effect creator expects first argument to be a list of effects.')
+      }
+    }
+
+    return createEffect({
+      list,
+      opts,
+      type: 'L'
+    })
+  }
+
+  const branch = (test, success, failure) => createEffect({
     test,
     success,
     failure,
-    type: 'BRANCH'
+    type: 'B'
   })
 
   store.effects = {
+    withEffect: store.withEffect,
     action,
     run,
     list,
