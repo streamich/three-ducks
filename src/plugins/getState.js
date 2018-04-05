@@ -1,4 +1,4 @@
-const getState = () => store => {
+const plugin = () => store => {
   store.getState = () => {
     if (process.env.NODE_ENV !== 'production') {
       if (store.isDispatching) {
@@ -14,4 +14,4 @@ const getState = () => store => {
   }
 }
 
-export default getState
+export default plugin

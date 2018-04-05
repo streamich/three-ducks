@@ -1,4 +1,4 @@
-const thunk = () => store => {
+const plugin = () => store => {
   store.middlewares.push((action, store) => {
     if (typeof action === 'function') {
       return action(store)
@@ -6,4 +6,4 @@ const thunk = () => store => {
   })
 }
 
-export default thunk
+export default plugin

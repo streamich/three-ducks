@@ -7,6 +7,6 @@ can be found in `three-ducks/lib/plugins/` folder.
 - [`reducer`](./plugins/reducer.md) &mdash; sets a reducer middleware to run on each "dispatch"
 - [`subscribe`](./plugins/subscribe.md) &mdash; adds `.subscribe()` method
 - [`replaceReducer`](./plugins/replaceReducer.md) &mdash; adds `.replaceReducer()` method
-- [`getState`](./plugins/replaceReducer.md) &mdash; adds `.getState()` method
-- [`observable`](./plugins/observable.md) &mdash; makes store an [observalbe](https://github.com/tc39/proposal-observable)
+- [`getState`](./plugins/getState.md) &mdash; adds `.getState()` method
+- [`observable`](./plugins/observable.md) &mdash; makes store an [observable](https://github.com/tc39/proposal-observable)
 - [`thunk`](./plugins/thunk.md) &mdash; similar to [`redux-thunk`](https://github.com/gaearon/redux-thunk) package

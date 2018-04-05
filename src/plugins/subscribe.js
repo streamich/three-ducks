@@ -1,4 +1,4 @@
-const subscribe = () => store => {
+const plugin = () => store => {
   store.subscribe = listener => {
     if (process.env.NODE_ENV !== 'production') {
       if (typeof listener !== 'function') {
@@ -34,4 +34,4 @@ const subscribe = () => store => {
   }
 }
 
-export default subscribe
+export default plugin

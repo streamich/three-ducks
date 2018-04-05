@@ -1,5 +1,5 @@
-const actions = () => store => {
+const plugin = () => store => {
   store.actions = {}
 }
 
-export default actions
+export default plugin
