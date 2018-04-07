@@ -1,4 +1,4 @@
-import createDriver from './persist/createDriver'
+import createLocalStorageDriver from './persist/createLocalStorageDriver'
 
 const plugin = opts => store => {
   if (typeof window !== 'object') {
@@ -6,17 +6,20 @@ const plugin = opts => store => {
   }
 
   const {
-    driver = createDriver(),
+    driver = createLocalStorageDriver(),
     filter = state => state,
-    stringify = JSON.stringify
+    stringify = JSON.stringify,
+    parse = JSON.parse
   } = opts || {}
 
-  store.persist = () =>
+  store.save = () =>
     driver.set(stringify(filter(store.state)))
 
   store.load = async () => {
-    store.state = await driver.get()
+    store.state = parse(await driver.get())
   }
+
+  store.clean = driver.delete
 }
 
 export default plugin
