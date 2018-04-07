@@ -3,8 +3,13 @@ const plugin = () => (store) => {
 
   let effectQueue = []
 
-  store.withEffect = (state, effect) => {
+  const dispatchEffect = (effect) => {
     effectQueue.push(effect)
+  }
+
+  store.effect = dispatchEffect
+  store.withEffect = (state, effect) => {
+    dispatchEffect(effect)
 
     return state
   }
