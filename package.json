@@ -1,6 +1,6 @@
 {
   "name": "three-ducks",
-  "version": "0.0.2",
+  "version": "0.0.0-development",
   "description": "As if Redux was written as plugins",
   "main": "lib/index.js",
   "repository": {
@@ -20,7 +20,8 @@
     "prettier": "standard --fix",
     "storybook": "NODE_ENV=production start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "bench": "NODE_ENV=production babel-node benchmark/index.js"
+    "bench": "NODE_ENV=production babel-node benchmark/index.js",
+    "travis-deploy-once": "travis-deploy-once"
   },
   "lint-staged": {
     "**/*.js": [
@@ -43,7 +44,7 @@
     "lint-staged": "4.3.0",
     "rimraf": "2.6.2",
     "mol-conventional-changelog": "1.2.0",
-    "semantic-release": "12.4.1",
+    "semantic-release": "^15.1.5",
     "babel-cli": "6.26.0",
     "babel-core": "6.26.0",
     "babel-polyfill": "6.26.0",
@@ -63,7 +64,8 @@
     "@storybook/addon-links": "3.4.0",
     "@storybook/addons": "3.4.0",
     "babel-runtime": "6.26.0",
-    "benchmark": "2.1.4"
+    "benchmark": "2.1.4",
+    "travis-deploy-once": "^4.4.1"
   },
   "config": {
     "commitizen": {
