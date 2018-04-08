@@ -1,14 +1,30 @@
 const createLocalStorageDriver = (key = '@@persist') => {
   const driver = {
-    set: async (string) => {
-      window.localStorage[key] = string
-    },
+    set: (string) => new Promise((resolve, reject) => {
+      try {
+        window.localStorage[key] = string
+        resolve()
+      } catch (error) {
+        reject(error)
+      }
+    }),
 
-    get: async () => window.localStorage[key],
+    get: () => new Promise((resolve, reject) => {
+      try {
+        resolve(window.localStorage[key])
+      } catch (error) {
+        reject(error)
+      }
+    }),
 
-    delete: async () => {
-      delete window.localStorage[key]
-    }
+    delete: () => new Promise((resolve, reject) => {
+      try {
+        delete window.localStorage[key]
+        resolve()
+      } catch (error) {
+        reject(error)
+      }
+    })
   }
 
   return driver
