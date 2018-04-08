@@ -4,7 +4,7 @@
 
 Tiny Redux clone with plugins.
 
-- __Tiny__ &mdash; core is only [5 lines of code](./src/index.js)
+- __Tiny__ &mdash; core is only [5 lines of code](./src/index.js), [`redux` preset](./docs/presets/redux.md) is 0.6Kb
 - __All Redux APIs__ &mdash; `.subscribe()`, `.getState()`, `.dispatch()`, etc. &mdash; as separate plugins
 - __Faster than Redux__ &mdash; see [benchmark results](#benchmark)
 - __100% compatible__ &mdash; works with [`react-redux`](https://github.com/reactjs/react-redux), passes [Redux `createStore()` test suite](./src/presets/__tests__/reduxSpec.test.js)
