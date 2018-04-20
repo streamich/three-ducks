@@ -1,6 +1,6 @@
 {
   "name": "three-ducks",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "As if Redux was written as plugins",
   "main": "lib/index.js",
   "repository": {
