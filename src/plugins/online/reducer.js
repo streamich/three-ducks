@@ -8,6 +8,7 @@ export const queueEffect = (effect) => ({
 })
 
 export const reducer = (state, action) => {
+  /*
   switch (action.type) {
     case ENQUEUE:
       return {
@@ -25,4 +26,5 @@ export const reducer = (state, action) => {
     default:
       return state
   }
+  */
 }
