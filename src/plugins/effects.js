@@ -25,16 +25,16 @@ const plugin = () => (store) => {
     for (const effect of list) { execEffect(effect) }
   }
 
-  const executeBranchEffect = async ({test, success, failure}, ...args) => {
+  const executeBranchEffect = ({test, success, failure}, ...args) => {
     try {
       const result = execEffect(test, ...args)
 
       if (isPromise(result)) {
-        const promiseResult = await result
-
-        if (success) {
-          return execEffect(success, promiseResult)
-        }
+        return result.then(promiseResult => {
+          return success
+            ? execEffect(success, promiseResult)
+            : promiseResult
+        }, error => failure ? execEffect(failure, error) : error)
       } else {
         if (success) {
           return execEffect(success, result)

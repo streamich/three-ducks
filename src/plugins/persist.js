@@ -15,8 +15,11 @@ const plugin = opts => store => {
   store.save = () =>
     driver.set(stringify(filter(store.state)))
 
-  store.load = async () => {
-    store.state = parse(await driver.get())
+  store.load = () => {
+    driver.get().then((str) => {
+      store.state = parse(str)
+      return str
+    })
   }
 
   store.clean = driver.delete
