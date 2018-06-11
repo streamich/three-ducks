@@ -1,28 +1,38 @@
-import createLocalStorageDriver from './persist/createLocalStorageDriver'
-
 const plugin = opts => store => {
   if (typeof window !== 'object') {
     return
   }
 
+  const LS = window.localStorage
+
   const {
-    driver = createLocalStorageDriver(),
+    key = '@@persist',
     filter = state => state,
     stringify = JSON.stringify,
     parse = JSON.parse
   } = opts || {}
 
-  store.save = () =>
-    driver.set(stringify(filter(store.state)))
-
-  store.load = () => {
-    driver.get().then((str) => {
-      store.state = parse(str)
-      return str
-    })
+  store.save = () => {
+    try {
+      LS[key] = stringify(filter(store.state))
+    } catch (error) {}
   }
 
-  store.clean = driver.delete
+  store.load = () => {
+    try {
+      const obj = parse(LS[key])
+
+      if (obj) {
+        store.state = obj
+      }
+    } catch (error) {}
+  }
+
+  store.clean = () => {
+    try {
+      delete LS[key]
+    } catch (error) {}
+  }
 }
 
 export default plugin
