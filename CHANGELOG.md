@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/streamich/three-ducks/compare/v1.2.0...v1.3.0) (2018-06-12)
+
+
+### Features
+
+* 🎸 make persist plugin synchronous ([5638754](https://github.com/streamich/three-ducks/commit/5638754))
+
 # [1.2.0](https://github.com/streamich/three-ducks/compare/v1.1.0...v1.2.0) (2018-06-11)
 
 
