@@ -75,5 +75,15 @@ describe('plugin', () => {
       expect(reducer).toHaveBeenCalledTimes(1)
       expect(reducer.mock.calls[0][1]).toBe(action)
     })
+
+    it('can return undefined', () => {
+      const reducer = jest.fn()
+
+      reducer.mockImplementation((state, action) => state)
+
+      const store = createStoreWithPlugin(reducer)
+
+      store.dispatch(() => undefined)
+    })
   })
 })
