@@ -8,7 +8,7 @@ cache:
 notifications:
   email: false
 node_js:
-  - '8'
+  - '10' # Have to use v10 for async generators
 script:
   - yarn test
   - yarn build
