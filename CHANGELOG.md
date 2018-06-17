@@ -1,3 +1,11 @@
+# [1.6.0](https://github.com/streamich/three-ducks/compare/v1.5.0...v1.6.0) (2018-06-17)
+
+
+### Features
+
+* 🎸 add combineEpics() function ([a9b84eb](https://github.com/streamich/three-ducks/commit/a9b84eb))
+* 🎸 add dev check so all epics return an observable ([9ca2c41](https://github.com/streamich/three-ducks/commit/9ca2c41))
+
 # [1.5.0](https://github.com/streamich/three-ducks/compare/v1.4.0...v1.5.0) (2018-06-17)
 
 
