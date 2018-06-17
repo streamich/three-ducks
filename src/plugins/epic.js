@@ -1,24 +1,33 @@
+import $$observable from 'symbol-observable'
+
 const plugin = (epic) => store => {
-  const observable = (observer) => {
-    const dispatch = store.dispatch
-    let live = true
+  const dispatch = store.dispatch
+  const observable = {
+    subscribe (observer) {
+      const dispatch = store.dispatch
+      let live = true
 
-    store.dispatch = (action) => {
-      dispatch(action)
+      store.dispatch = (action) => {
+        dispatch(action)
 
-      if (live) {
-        observer.next(action)
+        if (live) {
+          observer.next(action)
+        }
       }
-    }
 
-    const unsubscribe = () => {
-      live = false
-    }
+      const unsubscribe = () => {
+        live = false
+      }
 
-    return unsubscribe
+      return {unsubscribe}
+    },
+
+    [$$observable] () {
+      return this
+    }
   }
 
-  epic(observable)(store.dispatch)
+  epic(observable, store)(dispatch)
 }
 
 export default plugin
