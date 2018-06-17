@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/streamich/three-ducks/compare/v1.6.0...v1.7.0) (2018-06-17)
+
+
+### Features
+
+* 🎸 add ofType() rxjs operator ([544842b](https://github.com/streamich/three-ducks/commit/544842b))
+
 # [1.6.0](https://github.com/streamich/three-ducks/compare/v1.5.0...v1.6.0) (2018-06-17)
 
 
