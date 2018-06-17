@@ -1,0 +1,100 @@
+const plugin = (epic) => async (store) => {
+  const generator = () => {
+    const dispatch = store.dispatch
+    const newDispatch = function * (action) {
+      dispatch(action)
+      yield action
+    }
+
+    store.dispatch = newDispatch
+
+    return {
+      done: false,
+      next: () => {}
+    }
+  }
+  const stop = () => {}
+  const dispatch = store.dispatch
+  const iterator = epic({generator, stop})
+
+  for await (const action of iterator)
+    dispatch(action)
+}
+
+// export default plugin
+
+
+const timeout = time => new Promise(resolve => setTimeout(resolve, time))
+
+const filter = async function * ({iterator}) {
+  for await (const value of iterator)
+    if (value) yield value
+}
+
+const map = async function * (iterator, mapper) {
+  for await (const value of iterator)
+    yield mapper(value)
+}
+
+const mapWithIndex = async function * (iterator, mapper) {
+  let index = 0
+
+  for await (const value of iterator)
+    yield mapper(value, index++)
+}
+
+const interval = (period) => {
+  let counter = 0
+  let live = true
+
+  return {
+    generator: (async function * () {
+      while (true) {
+        await timeout(period)
+
+        if (!live) return
+
+        yield counter
+
+        counter++
+      }
+    })(),
+    stop: () => {
+      live = false      
+    }
+  }
+}
+
+class Generator {
+  next = new Promise((resolve, reject) => {
+    this.__resolve = resolve
+    this.__reject = reject
+  })
+}
+
+const observableToGenerator = (observable) => {
+  let generator = new Generator
+
+  observable.subscribe({
+    next: (value) => {
+      generator.__resolve(value)
+      generator = new Generator
+    }
+  })
+}
+
+const main = async function * main () {
+  console.log(2)
+  const {generator, stop} = interval(1000)
+
+  for await (const value of generator) {
+    console.log(value)
+    if (value > 2) {
+      stop()
+    }
+  }
+  
+}
+
+console.log(1)
+main().next()
