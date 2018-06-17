@@ -1,3 +1,17 @@
+# [1.5.0](https://github.com/streamich/three-ducks/compare/v1.4.0...v1.5.0) (2018-06-17)
+
+
+### Bug Fixes
+
+* 🐛 improve epic plugin, standartize observable ([3f4ccc3](https://github.com/streamich/three-ducks/commit/3f4ccc3))
+
+
+### Features
+
+* 🎸 add epic plugin implementation ([60c7a78](https://github.com/streamich/three-ducks/commit/60c7a78))
+* 🎸 user rxjs for epic observables ([98b1ac6](https://github.com/streamich/three-ducks/commit/98b1ac6))
+* 🎸 WIP add async epics ([acc534b](https://github.com/streamich/three-ducks/commit/acc534b))
+
 # [1.4.0](https://github.com/streamich/three-ducks/compare/v1.3.0...v1.4.0) (2018-06-13)
 
 
