@@ -4,8 +4,7 @@ import {createStore} from '../../'
 import pluginDispatch from '../dispatch'
 import pluginReducer from '../reducer'
 import pluginEpic from '../epic'
-
-const delay = time => new Promise(resolve => setTimeout(resolve, time))
+import combineEpics from '../../combineEpics'
 
 const createStoreWithPlugin = (epic, reducer = state => state) => {
   return createStore({}, [
@@ -27,7 +26,7 @@ describe('plugin', () => {
       }).toThrow()
     })
 
-    it('works', async () => {
+    it('works', () => {
       const log = []
       const epic = (observable, store) => {
         return {
@@ -50,7 +49,35 @@ describe('plugin', () => {
         dispatch(action)
       }
 
-      await delay(100)
+      store.dispatch({
+        type: 'PING'
+      })
+
+      store.dispatch({
+        type: 'NOT_PING'
+      })
+
+      expect(log).toEqual([
+        { type: 'PING' },
+        { type: 'PONG' },
+        { type: 'NOT_PING' }
+      ])
+    })
+
+    it('works with rxjs', () => {
+      const log = []
+      const epic = (observable, store) =>
+        from(observable).pipe(
+          filter(({type}) => type === 'PING'),
+          map(() => ({type: 'PONG'}))
+        )
+      const store = createStoreWithPlugin(epic)
+      const dispatch = store.dispatch
+
+      store.dispatch = (action) => {
+        log.push(action)
+        dispatch(action)
+      }
 
       store.dispatch({
         type: 'PING'
@@ -67,36 +94,37 @@ describe('plugin', () => {
       ])
     })
 
-    it('works with rxjs', async () => {
-      const log = []
-      const epic = (observable, store) =>
-        from(observable).pipe(
-          filter(({type}) => type === 'PING'),
-          map(() => ({type: 'PONG'}))
-        )
-      const store = createStoreWithPlugin(epic)
-      const dispatch = store.dispatch
+    describe('combineEpics', () => {
+      it('works', () => {
+        const log = []
+        const epic1 = (observable, store) =>
+          from(observable).pipe(
+            filter(({type}) => type === 'PING'),
+            map(() => ({type: 'PONG1'}))
+          )
+        const epic2 = (observable, store) =>
+          from(observable).pipe(
+            filter(({type}) => type === 'PING'),
+            map(() => ({type: 'PONG2'}))
+          )
+        const store = createStoreWithPlugin(combineEpics(epic1, epic2))
+        const dispatch = store.dispatch
 
-      store.dispatch = (action) => {
-        log.push(action)
-        dispatch(action)
-      }
+        store.dispatch = (action) => {
+          log.push(action)
+          dispatch(action)
+        }
 
-      await delay(100)
+        store.dispatch({
+          type: 'PING'
+        })
 
-      store.dispatch({
-        type: 'PING'
+        store.dispatch({
+          type: 'NOT_PING'
+        })
+
+        expect(log).toEqual([{'type': 'PING'}, {'type': 'PONG1'}, {'type': 'PONG2'}, {'type': 'NOT_PING'}])
       })
-
-      store.dispatch({
-        type: 'NOT_PING'
-      })
-
-      expect(log).toEqual([
-        { type: 'PING' },
-        { type: 'PONG' },
-        { type: 'NOT_PING' }
-      ])
     })
   })
 })
