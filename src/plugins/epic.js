@@ -1,4 +1,4 @@
-import $$observable from 'symbol-observable'
+import {Observable} from 'rxjs/internal/Observable'
 
 const plugin = (epic) => store => {
   if (process.env.NODE_ENV !== 'production') {
@@ -7,31 +7,24 @@ const plugin = (epic) => store => {
     }
   }
 
-  const observable = {
-    subscribe (observer) {
-      const dispatch = store.dispatch
-      let live = true
+  const observable = Observable.create(observer => {
+    const dispatch = store.dispatch
+    let live = true
 
-      store.dispatch = (action) => {
-        console.log('A', action)
-        dispatch(action)
+    store.dispatch = (action) => {
+      dispatch(action)
 
-        if (live) {
-          observer.next(action)
-        }
+      if (live) {
+        observer.next(action)
       }
-
-      const unsubscribe = () => {
-        live = false
-      }
-
-      return {unsubscribe}
-    },
-
-    [$$observable] () {
-      return this
     }
-  }
+
+    const unsubscribe = () => {
+      live = false
+    }
+
+    return {unsubscribe}
+  })
 
   epic(observable, store).subscribe({
     next: (action) => store.dispatch(action)

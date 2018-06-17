@@ -1,3 +1,6 @@
+// import {fromObservable} from 'rxjs/internal/observable/fromObservable';
+import {from} from 'rxjs'
+import {filter, map} from 'rxjs/operators'
 import {createStore} from '../../'
 import pluginDispatch from '../dispatch'
 import pluginReducer from '../reducer'
@@ -40,6 +43,38 @@ describe('plugin', () => {
           }
         }
       }
+      const store = createStoreWithPlugin(epic)
+      const dispatch = store.dispatch
+
+      store.dispatch = (action) => {
+        log.push(action)
+        dispatch(action)
+      }
+
+      await delay(100)
+
+      store.dispatch({
+        type: 'PING'
+      })
+
+      store.dispatch({
+        type: 'NOT_PING'
+      })
+
+      expect(log).toEqual([
+        { type: 'PING' },
+        { type: 'PONG' },
+        { type: 'NOT_PING' }
+      ])
+    })
+
+    it('works with rxjs', async () => {
+      const log = []
+      const epic = (observable, store) =>
+        from(observable).pipe(
+          filter(({type}) => type === 'PING'),
+          map(() => ({type: 'PONG'}))
+        )
       const store = createStoreWithPlugin(epic)
       const dispatch = store.dispatch
 
