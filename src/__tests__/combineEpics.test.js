@@ -1,10 +1,20 @@
-import {from} from 'rxjs'
+import {from, empty} from 'rxjs'
 import {map, filter} from 'rxjs/operators'
 import combineEpics from '../combineEpics'
+
+process.env.NODE_ENV = 'development'
 
 describe('combineEpics', () => {
   it('exists', () => {
     expect(typeof combineEpics).toBe('function')
+  })
+
+  it('throws if epic does not return observable', () => {
+    expect(() => {
+      combineEpics(() => undefined)(empty())
+    }).toThrow()
+
+    combineEpics(() => empty())(empty())
   })
 
   it('works', () => {
