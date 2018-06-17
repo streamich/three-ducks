@@ -1,4 +1,3 @@
-// import {fromObservable} from 'rxjs/internal/observable/fromObservable';
 import {from} from 'rxjs'
 import {filter, map} from 'rxjs/operators'
 import {createStore} from '../../'
