@@ -62,7 +62,7 @@
     "redux": "3.7.2",
     "react-redux": "5.0.7",
     "react": "16.4.0",
-    "react-dom": "16.4.0",
+    "react-dom": "16.8.6",
     "@storybook/react": "3.4.7",
     "@storybook/addon-actions": "3.4.7",
     "@storybook/addon-links": "3.4.7",
